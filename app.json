@@ -18,16 +18,29 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "config": {
+        "googleMobileAdsAppId": "ca-app-pub-8812453476407098~7998524577"
+      },
+      "supportsTablet": true,
+      "bundleIdentifier": "com.anonymous.BarcodeScanner"
     },
     "android": {
+      "config": {
+        "googleMobileAdsAppId": "ca-app-pub-8812453476407098~7998524577" 
+      },
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.anonymous.BarcodeScanner"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "d410d4c2-fc54-4bd8-b382-f51fe8a36482"
+      }
     }
   }
 }
