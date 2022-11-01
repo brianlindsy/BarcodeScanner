@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, StyleSheet, Linking, Dimensions} from 'react-native';
+import { TouchableOpacity, StyleSheet, Linking, Dimensions, Text, View} from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import * as Haptics from 'expo-haptics';
 
@@ -18,20 +18,26 @@ const followLinkOut = (link) => {
     Linking.openURL(link);
 };
 
-const ShareButton = ({data}) => {
+const ShareButton = ({data, shareText}) => {
 
     return (
-        isValidUrl(data) && 
-        <TouchableOpacity onPress={() => Haptics.selectionAsync() && followLinkOut(data)}>
-            <Ionicons style={styles.icon} name="share-sharp"/>
-        </TouchableOpacity>
+        isValidUrl(data) &&
+        <View style={styles.iconGroup}>
+            <TouchableOpacity onPress={() => Haptics.selectionAsync() && followLinkOut(data)}>
+                <Ionicons style={styles.icon} name="share-sharp"/>
+                <Text>{shareText}</Text>
+            </TouchableOpacity>
+        </View>
     )
 };
 
 const styles = StyleSheet.create({
     icon: {
-        fontSize: Dimensions.get('window').width * .15,
+        fontSize: Dimensions.get('window').width * .20,
         color: '#5271ff',
+    },
+    iconGroup: {
+        margin: 5
     }
 });
 

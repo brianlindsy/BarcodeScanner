@@ -15,3 +15,31 @@ export const isVCard = data => {
     
     return false;
 };
+
+export const isWifi = data => {
+    if(typeof data === 'string' && data?.startsWith("WIFI:")){
+        return true;
+    }
+
+    return false;
+};
+
+export const wifiDisplayName = data => {
+    if(isWifi(data)){
+        const wifiName = data.match(/S:(.*);P/);
+
+        return wifiName[1];
+    }
+    
+    return data;
+};
+
+export const wifiPassword = data => {
+    if(isWifi(data)){
+        const wifiPassword = data.match(/P:(.*);H/);
+
+        return wifiPassword[1];
+    }
+    
+    return data;
+};

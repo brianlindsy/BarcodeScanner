@@ -5,11 +5,11 @@ import { useFocusEffect } from '@react-navigation/native';
 import * as Localization from 'expo-localization';
 import { ListItem, Icon } from '@rneui/themed';
 import vCardParser from '../utils/vCardParser';
-import { isVCard, isValidUrl } from '../utils/utils';
+import { isVCard, isValidUrl, isWifi, wifiDisplayName } from '../utils/utils';
 
 const scanTimeAndDate = (date) => {
-    return new Date(date).toLocaleDateString(Localization.locale, { weekday:"long", year:"numeric", month:"short", day:"numeric"}) + ' ' +
-    new Date(date).toLocaleTimeString(Localization.locale, { hour12: true });
+    return new Date(date).toDateString() + ' ' +
+    new Date(date).toLocaleTimeString(Localization.locale);
 };
 
 const HistoryItemAvatar = (data) => {
@@ -18,15 +18,17 @@ const HistoryItemAvatar = (data) => {
         avatar = 'link';
     } else if(isVCard(data?.data)){
         avatar = 'contact-page';
+    } else if (isWifi(data?.data)){
+        avatar = 'wifi';
     }
     return <Icon name={ avatar}/>;
 };
 
-const renderItemData = (data) => {
+const vCardDisplayName = (data) => {
     if(isVCard(data)){
         const vCardJSON = vCardParser.parse(data);
 
-        return vCardJSON[0];
+        return vCardJSON[0].displayName;
     }
     
     return data;
@@ -55,7 +57,9 @@ const HistoryScreen = ({navigation}) => {
           <HistoryItemAvatar data={item.data}/>
           <ListItem.Content>
             <ListItem.Title>{scanTimeAndDate(item.date)}</ListItem.Title>
-            <ListItem.Content><Text>{isVCard(item.data) ? renderItemData(item.data).displayName : item.data}</Text></ListItem.Content>
+            {isVCard(item.data) && <ListItem.Content><Text>{vCardDisplayName(item.data)}</Text></ListItem.Content>}
+            {isWifi(item.data) && <ListItem.Content><Text>{wifiDisplayName(item.data)}</Text></ListItem.Content>}
+            {(!isWifi(item.data) && !isVCard(item.data)) && <ListItem.Content><Text>{item.data}</Text></ListItem.Content>}
           </ListItem.Content>
           <ListItem.Chevron />
         </ListItem>

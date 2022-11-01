@@ -10,6 +10,10 @@ import {
 import * as Device from 'expo-device';
 import CopyButton from '../components/CopyButton';
 import ShareButton from '../components/ShareButton';
+import { isVCard, isWifi } from '../utils/utils';
+import VCard from './VCard';
+import Wifi from './Wifi';
+import vCardParser from '../utils/vCardParser';
   
 const testID = 'ca-app-pub-3940256099942544/6300978111';
 const productionID = 'ca-app-pub-8812453476407098/1619381695';
@@ -86,13 +90,15 @@ const ScanScreen = () => {
                 onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
             /> }
             {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />}
-            {scanned && <View style={styles.displayData}>
+            {scanned && (!isWifi(displayInfo) && !isVCard(displayInfo)) && <View style={styles.displayData}>
                 <Text>{displayInfo}</Text>
                 <View style={styles.icons}>
                     <ShareButton data={displayInfo}/>
                     <CopyButton data={displayInfo}/>
                 </View>
             </View>}
+            {scanned && isWifi(displayInfo) && <Wifi wifi={displayInfo} />}
+            {scanned && isVCard(displayInfo) && <VCard vCard={vCardParser.parse(displayInfo)[0]} />}
         </View>
     );
 }
