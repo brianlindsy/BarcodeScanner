@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, Button, Dimensions, StyleSheet } from 'react-native';
+import { Text, ScrollView, View, Button, Dimensions, StyleSheet } from 'react-native';
 import { Camera } from 'expo-camera';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useIsFocused, useFocusEffect } from '@react-navigation/native';
@@ -81,25 +81,27 @@ const ScanScreen = () => {
     }
 
     return (
-        <View>
-            {/*<AdMobBanner
+        <ScrollView style={styles.wrapper}>
+            <AdMobBanner
                 width={width}
-            adUnitID={adUnitId} />*/}
+            adUnitID={adUnitId} />
             { isFocused && <Camera
                 style={{height: height * .4}}
                 onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
             /> }
             {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />}
-            {scanned && (!isWifi(displayInfo) && !isVCard(displayInfo)) && <View style={styles.displayData}>
-                <Text>{displayInfo}</Text>
-                <View style={styles.icons}>
-                    <ShareButton data={displayInfo}/>
-                    <CopyButton data={displayInfo}/>
-                </View>
-            </View>}
-            {scanned && isWifi(displayInfo) && <Wifi wifi={displayInfo} />}
-            {scanned && isVCard(displayInfo) && <VCard vCard={vCardParser.parse(displayInfo)[0]} />}
-        </View>
+            <View style={styles.displayData}>
+                {scanned && (!isWifi(displayInfo) && !isVCard(displayInfo)) && <View style={styles.displayData}>
+                    <Text>{displayInfo}</Text>
+                    <View style={styles.icons}>
+                        <ShareButton data={displayInfo}/>
+                        <CopyButton data={displayInfo}/>
+                    </View>
+                </View>}
+                {scanned && isWifi(displayInfo) && <Wifi wifi={displayInfo} />}
+                {scanned && isVCard(displayInfo) && <VCard vCard={vCardParser.parse(displayInfo)[0]} />}
+            </View>
+        </ScrollView>
     );
 }
 
@@ -108,11 +110,12 @@ const styles = StyleSheet.create({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        height: height * .4,
-        width: width
     },
     icons: {
         flexDirection: 'row'
+    },
+    wrapper: {
+        flexDirection: 'column'
     }
 });
 

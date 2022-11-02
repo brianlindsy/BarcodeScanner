@@ -10,7 +10,7 @@ const Wifi = (wifi) => {
     const wifiPass = wifiPassword(wifi?.wifi);
 
     return (
-        <View>
+        <View style={styles.wrapper}>
             { <Text>SSID: {wifiName}</Text>}
             { <Text>Password: {wifiPass}</Text>}
             <View style={styles.icons}>
@@ -22,9 +22,13 @@ const Wifi = (wifi) => {
 };
 
 const styles = StyleSheet.create({
-    icon: {
-        fontSize: Dimensions.get('window').width * .20,
-        color: '#5271ff',
+    icons: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        padding: 5
+    },
+    wrapper: {
+        margin: 'auto',
     }
 });
 

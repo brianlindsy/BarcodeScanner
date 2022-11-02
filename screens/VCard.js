@@ -27,18 +27,30 @@ const VCard = (vCard) => {
         return "https://www.google.com/search?q=" + address.trim().replace(/\n/g," ").replace(/,/g,"").replace(/ /g,"+");
     }
 
+    const isAddressEmpty = () => {
+        const parsed = parseAddress(vCardData.address[0].value).trim().replace(" ", "").replace(",","");
+
+        return parsed !== "";
+    }
+
+    const isTelephoneEmpty = () => {
+        const parsed = parseTelephone(vCardData.telephone);
+
+        return parsed !== undefined && parsed !== "";
+    }
+
     return (
         <View>
             { vCardData.displayName !== null ? <Text>Name: {vCardData.displayName}</Text> : null}
             { vCardData.organization !== '' ? <Text>Organization: {vCardData.organization}</Text> : null}
-            { vCardData.telephone !== null ? <Text>Telephone: {parseTelephone(vCardData.telephone)}</Text> : null}
+            { isTelephoneEmpty() ? <Text>Telephone: {parseTelephone(vCardData.telephone)}</Text> : null}
             { vCardData.email[0].value !== '' ? <Text>Email: {vCardData.email[0].value}</Text> : null}
-            { vCardData.address[0] !== null ? <Text>Address: {parseAddress(vCardData.address[0].value)}</Text> : null}
+            { isAddressEmpty() ? <Text>Address: {parseAddress(vCardData.address[0].value)}</Text> : null}
             <View style={styles.icons}>
-                <ShareButton shareText={'Google Address'} data={googleAddressString(parseAddress(vCardData.address[0].value))}/>
-                <CopyButton copyText={'Copy Name'} data={vCardData.displayName}/>
-                <CopyButton copyText={'Copy Email'} data={vCardData.email[0].value}/>
-                <CopyButton copyText={'Copy Telephone'} data={parseTelephone(vCardData.telephone)}/>
+                { isAddressEmpty() ? <ShareButton shareText={'Google Address'} data={googleAddressString(parseAddress(vCardData.address[0].value))}/> : null}
+                { vCardData.displayName !== null ? <CopyButton copyText={'Copy Name'} data={vCardData.displayName}/> : null}
+                { vCardData.email[0].value !== '' ? <CopyButton copyText={'Copy Email'} data={vCardData.email[0].value}/> : null}
+                { isTelephoneEmpty() ? <CopyButton copyText={'Copy Telephone'} data={parseTelephone(vCardData.telephone)}/> : null}
             </View>
         </View>
     );
@@ -48,8 +60,12 @@ const styles = StyleSheet.create({
     icons: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        width: Dimensions.get('window').width,
         padding: 5
+    },
+    wrapper: {
+        width: Dimensions.get('window').width,
+        height: Dimensions.get('window').height,
+        margin: 'auto',
     }
 });
 

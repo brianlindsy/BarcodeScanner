@@ -6,6 +6,18 @@ import * as Localization from 'expo-localization';
 import { ListItem, Icon } from '@rneui/themed';
 import vCardParser from '../utils/vCardParser';
 import { isVCard, isValidUrl, isWifi, wifiDisplayName } from '../utils/utils';
+import {
+    AdMobBanner,
+} from 'expo-ads-admob';
+import * as Device from 'expo-device';
+
+const width = Dimensions.get('window').width;
+const height = Dimensions.get('window').height;
+
+const testID = 'ca-app-pub-3940256099942544/6300978111';
+const productionID = 'ca-app-pub-8812453476407098/1712514911';
+// Is a real device and running in production.
+const adUnitId = Device.isDevice && !__DEV__ ? productionID : testID;
 
 const scanTimeAndDate = (date) => {
     return new Date(date).toDateString() + ' ' +
@@ -67,6 +79,9 @@ const HistoryScreen = ({navigation}) => {
 
     return (
         data ? <SafeAreaView style={styles.container}>
+            <AdMobBanner
+                width={width}
+            adUnitID={adUnitId} />
             <FlatList data={data} renderItem={renderItem} keyExtractor={item => item.id} />
         </SafeAreaView>
         : <Text>No scans in your history, go to the Scan tab below to get started!</Text>

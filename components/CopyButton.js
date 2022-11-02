@@ -22,7 +22,7 @@ const CopyButton = ({data, copyText}) => {
 
 const styles = StyleSheet.create({
     icon: {
-        fontSize: Dimensions.get('window').width * .20,
+        fontSize: Dimensions.get('window').width * .15,
         color: '#5271ff',
     },
     iconGroup: {
