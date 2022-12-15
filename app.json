@@ -2,7 +2,7 @@
   "expo": {
     "name": "BarcodeScanner",
     "slug": "BarcodeScanner",
-    "version": "1.0.0",
+    "version": "1.0.4",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -22,25 +22,31 @@
         "googleMobileAdsAppId": "ca-app-pub-8812453476407098~7998524577"
       },
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.BarcodeScanner"
+      "buildNumber": "2",
+      "bundleIdentifier": "com.anonymous.BarcodeScanner",
+      "icon": "./assets/icon.png"
     },
     "android": {
       "config": {
-        "googleMobileAdsAppId": "ca-app-pub-8812453476407098~7998524577" 
+        "googleMobileAdsAppId": "ca-app-pub-8812453476407098~7998524577"
       },
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
-      },
-      "package": "com.anonymous.BarcodeScanner"
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
+      "package": "com.anonymous.BarcodeScanner",
+      "icon": "./assets/icon.png"
     },
     "extra": {
       "eas": {
         "projectId": "d410d4c2-fc54-4bd8-b382-f51fe8a36482"
       }
-    }
+    },
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "kotlinVersion": "1.6.10"
+          }
+        }
+      ]
+    ]
   }
 }
